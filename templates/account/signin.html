@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+
+<div class="container d-flex justify-content-center" style="margin-bottom:5vh; width:52vh">
+    <h2>Sign In</h2>
+</div>
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="container d-flex justify-content-center alert-{{ message.tags }}" style="padding:1vh;width:51vh;margin-bottom: 4vh;">
+   {{ message }}
+</div>  
+{% endfor %}
+{% endif %}   
+
+
+<form action="{% url 'signin' %}" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        {{ form.as_p}}
+    </div>
+
+
+ 
+
+
+<div class="container d-flex justify-content-center" style="margin-top:3vh">
+    <input type="submit" value="Sign In"  class="btn btn-primary" style="width:52vh;">
+</div>
+
+<div class="container d-flex justify-content-center" style="margin-top:6vh">
+    <h5>Don't have an account?<a href="{% url 'signup' %}">Sign Up</a></h5>
+</div>
+</form> 
+
+{% endblock %}

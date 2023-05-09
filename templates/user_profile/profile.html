@@ -1,4 +1,10 @@
-<form action="{% url 'user_profile:profile' %}" method="POST">
-{{ form.as_p }}
-<input type="submit" value="save">
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'user_profile:profile' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+   
+        <input type="submit" value="save" class="btn btn-primary" style="width:10vh">
+  
 </form>
+{% endblock %}
