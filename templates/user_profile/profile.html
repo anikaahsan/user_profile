@@ -1,10 +1,18 @@
-{% extends 'base.html' %}
-{% block content %}
-<form action="{% url 'user_profile:profile' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-   
-        <input type="submit" value="save" class="btn btn-primary" style="width:10vh">
-  
-</form>
+{% extends 'base_profile.html' %}
+{% block profilecontent %}
+
+    <div class=" " style="padding: 8vh; ">
+
+
+    <div class="container d-flex justify-content-center" style="margin-bottom:5vh">
+        <h2>Edit Profile </h2>
+    </div>
+    <form action="{% url 'user_profile:profile_edit' request.user.username %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="container d-flex justify-content-center" style="margin-top:3vh">
+            <input type="submit" value="Save" class="btn btn-primary" style="width:80vh">
+        </div>
+    </form>
+    </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django import forms
 from django_countries.data import COUNTRIES
+from account.models import Account
 from .models import Profile
 
 #custom widget
@@ -11,7 +12,7 @@ class ProfileForm(forms.ModelForm):
     
     class Meta:
         model=Profile
-        fields=['image','country','gender','birthday','bio']
+        fields=['image','country','gender','birthday','phone_number','bio']
         widgets={
             
             'birthday':DateInput(attrs={
@@ -28,12 +29,17 @@ class ProfileForm(forms.ModelForm):
            }),
            'image':forms.FileInput(attrs={
                'class':'form-control',
-           })
+           }),
+            'phone_number':forms.NumberInput(attrs={
+                'class':'form-control',
+            }),
 
         }
+
 
     # def __init__(self,*args,**kwargs):
     #     super().__init__(*args,**kwargs)
     #     for field in self.fields:
     #         self.fields[field].widget.attrs['class']='form-control'
-            
+
+ 

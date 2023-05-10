@@ -1,19 +1,23 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages,auth
-from .forms import AccountForm,SigninForm
+from django.contrib.auth import authenticate,login
+from .forms import AccountForm
+from .models import Account
 
 # Create your views here.
 def signup(request):
     if request.method=='POST':
         form=AccountForm(request.POST or None)
         if form.is_valid():
-              
+            first_name=form.cleaned_data['first_name']
+            last_name=form.cleaned_data['last_name']
+            email=form.cleaned_data['email']
+            username=form.cleaned_data['email'].split('@')[0]  
             password=form.cleaned_data['password']
-            confirm_password=form.cleaned_data['confirm_password']
-            if password!=confirm_password:
-                messages.error(request,'"password" and "confirm password" does not match')
-            else:    
-                form.save()
+            user=Account.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username,password=password) 
+            user.save()
+            messages.success(request,'Sign Up successful !')
+            return redirect('signin')
 
            
     else:
@@ -24,25 +28,29 @@ def signup(request):
 
 def signin(request):
     if request.method=="POST":
-        form=SigninForm(request.POST or None)
-        if form.is_valid():
-             email=form.cleaned_data['email']
-             password=form.cleaned_data['password']
-             user=auth.authenticate(email=email,password=password)
-             if user is not None:
-                  auth.login(request,user)
-                  messages.success(request,'signin successful')
-                  return redirect('profile')
-             else:
-                  messages.error(request,'Invalid email or password')
-                  return redirect('signin')
+        email=request.POST['email']
+        password=request.POST['password'] 
+        user=authenticate(email=email,password=password)
+        print(user)
+        if user is not None:
+            print('user is not none')
+            login(request,user)
+            messages.success(request,'sign In successful')
+            return redirect('user_profile:profile_edit', username=request.user.username)
+        else:
+            print('errors')
+            messages.error(request,'Invalid email or password')
+            return redirect('signin')
+        
     else:
-         form=SigninForm()
-    context=dict(form=form)
-    return render(request,'account/signin.html',context)
+     return render(request,'account/signin.html')
 
 
 def signout(request):
     auth.logout(request)
     
-    return redirect('signin')
+    return redirect('home')
+
+
+def home(request):
+    return render(request,'account/home.html')

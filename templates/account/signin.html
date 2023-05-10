@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
-
+<!-- not applied -->
+{% block message %}
+    {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGES_LEVELS.SUCCESS %}
+            <div class="container d-flex justify-content-center alert-{{ message.tags }}" style="padding:1vh;width:51vh;margin-bottom: 4vh;">
+                {{ message }}
+            </div>  
+        {% endif %}    
+        {% endfor %}
+{% endif %}  
+{% endblock %}
 
 
 {% block content %}
-
 
 
 <div class="container d-flex justify-content-center" style="margin-bottom:5vh; width:52vh">
@@ -13,9 +23,15 @@
 
 {% if messages %}
 {% for message in messages %}
-<div class="container d-flex justify-content-center alert-{{ message.tags }}" style="padding:1vh;width:51vh;margin-bottom: 4vh;">
-   {{ message }}
-</div>  
+
+ 
+    <div class="container d-flex justify-content-center alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="padding:1vh;width:51vh;margin-bottom: 4vh;">
+        <strong>{{ message }}</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+ 
+
 {% endfor %}
 {% endif %}   
 
@@ -23,15 +39,22 @@
 <form action="{% url 'signin' %}" method="POST">
     {% csrf_token %}
     <div class="container">
-        {{ form.as_p}}
+        
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+     
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+            </div>
+            
     </div>
 
 
- 
-
-
 <div class="container d-flex justify-content-center" style="margin-top:3vh">
-    <input type="submit" value="Sign In"  class="btn btn-primary" style="width:52vh;">
+    <input type="submit" value="Sign In"  href="" class="btn btn-primary" style="width:52vh;">
 </div>
 
 <div class="container d-flex justify-content-center" style="margin-top:6vh">

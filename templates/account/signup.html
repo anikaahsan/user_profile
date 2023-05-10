@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
+
+{% block message %}
+    {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="container d-flex justify-content-center alert-{{ message.tags }} alert-dismissible fade show" style="padding:1vh;width:51vh;margin-bottom: 4vh;">
+                {{ message }}
+                
+            </div>  
+        {% endif %}    
+        {% endfor %}
+{% endif %} 
+{% endblock %}
+
 {% block content %}
 <div class="container d-flex justify-content-center" style="margin-bottom:5vh">
     <h2>Sign Up</h2>
 </div>
 
-{% if messages %}
-{% for message in messages %}
-<div class="container d-flex justify-content-center alert-{{ message.tags }}" style="padding:1vh;width:51vh;margin-bottom: 4vh;">
-   {{ message }}
-</div>  
-{% endfor %}
-{% endif %}   
+
 
 <form method="POST" action="{% url 'signup' %}">
     {% csrf_token %}
     <div class="container">
         {{ form.as_p}}
     </div>
-
+    
 
 
 <div class="container d-flex justify-content-center" style="margin-top:3vh">
-    <input type="submit" value="Sign In"  class="btn btn-primary" style="width:52vh;">
+    <input type="submit" value="Sign Up"  class="btn btn-primary" style="width:52vh;">
 </div>
 
 <div class="container d-flex justify-content-center" style="margin-top:6vh">
@@ -30,3 +38,8 @@
 
 </form>
 {% endblock %}
+
+{% if form.errors %}
+    {{ form.email.errors }}
+    {{ form.non_field_errors }}
+    {% endif %}
