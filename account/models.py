@@ -4,7 +4,7 @@ from django.utils import timezone
 
 # Create your models here.
 class AccountManager(BaseUserManager):
-    def create_user(self,first_name,last_name,username,email,password):
+    def create_user(self,first_name,last_name,username,email,password=None):
         if not email:
             raise ValueError('user need to have a email address')
         if not username:
@@ -54,7 +54,7 @@ class Account(AbstractBaseUser):
     last_login=models.DateTimeField(default=timezone.now)
     is_admin=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
-    is_active=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=True)
     is_superadmin=models.BooleanField(default=False)
 
 

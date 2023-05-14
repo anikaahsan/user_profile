@@ -1,6 +1,84 @@
 {% extends 'base.html' %}
 
-{% block message %}
+
+
+{% block content %}
+<div class="container d-flex justify-content-center" style="margin-bottom:5vh">
+    <h2>Sign Up</h2>
+</div>
+
+<div  class="container d-flex justify-content-center" style="background-color: #ffcccc;">{{ form.email.errors|striptags }}</div>
+<div class="container d-flex justify-content-center" style="background-color: #ffcccc;">{{ form.non_field_errors|striptags }}</div>
+
+
+<form method="POST" action="{% url 'signup' %}">
+    {% csrf_token %}
+    <div class="container">
+       {% for field in form %}
+            <label for="" class="fw-bold">{{ field.label }}:</label>
+            
+            {{ field }}
+            
+            {{ field.help_text }}
+            {% if field.help_text %}
+                    <br>
+            {% endif %}
+            
+            <br>
+       {% endfor %}
+     
+    </div>
+    
+    <div class="container d-flex justify-content-center" style="margin-top:3vh">
+        <input type="submit" value="Sign Up"  class="btn btn-primary" style="width:52vh;">
+    </div>
+
+    <div class="container d-flex justify-content-center" style="margin-top:6vh">
+        <h5>Already have a account?<a href="{% url 'signin' %}">Sign In</a></h5>
+    </div>
+
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{ field.errors }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if form.non_field_errors %}
+{{ errors }}
+    {{ form.email.errors }}
+    {{ form.non_field_errors }}
+{% endif %}
+
+
+
     {% if messages %}
         {% for message in messages %}
         {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
@@ -11,35 +89,3 @@
         {% endif %}    
         {% endfor %}
 {% endif %} 
-{% endblock %}
-
-{% block content %}
-<div class="container d-flex justify-content-center" style="margin-bottom:5vh">
-    <h2>Sign Up</h2>
-</div>
-
-
-
-<form method="POST" action="{% url 'signup' %}">
-    {% csrf_token %}
-    <div class="container">
-        {{ form.as_p}}
-    </div>
-    
-
-
-<div class="container d-flex justify-content-center" style="margin-top:3vh">
-    <input type="submit" value="Sign Up"  class="btn btn-primary" style="width:52vh;">
-</div>
-
-<div class="container d-flex justify-content-center" style="margin-top:6vh">
-    <h5>Already have a account?<a href="{% url 'signin' %}">Sign In</a></h5>
-</div>
-
-</form>
-{% endblock %}
-
-{% if form.errors %}
-    {{ form.email.errors }}
-    {{ form.non_field_errors }}
-    {% endif %}

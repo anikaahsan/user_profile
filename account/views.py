@@ -18,7 +18,9 @@ def signup(request):
             user.save()
             messages.success(request,'Sign Up successful !')
             return redirect('signin')
-
+        
+        else:
+            messages.error('The form is not valid')
            
     else:
          form=AccountForm()
@@ -36,7 +38,8 @@ def signin(request):
             print('user is not none')
             login(request,user)
             messages.success(request,'sign In successful')
-            return redirect('user_profile:profile_edit', username=request.user.username)
+            # return redirect('user_profile:profile_edit', username=request.user.username)
+            return redirect('home')
         else:
             print('errors')
             messages.error(request,'Invalid email or password')
